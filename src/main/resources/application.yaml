@@ -1,0 +1,68 @@
+# =======================
+# Configuración del servidor web
+# =======================
+server:
+  port: 8080
+
+spring:
+  autoconfigure:
+    exclude: 
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  # =======================
+  # Configuración de Kafka
+  # =======================
+  kafka:
+    consumer:
+      group-id: search_consumers
+      auto-offset-reset: earliest
+    bootstrap-servers: localhost:9092
+    listener:
+      concurrency: 5
+  # =======================
+  # Configuración del pool de hilos
+  # =======================
+  task:
+      execution:
+        pool:
+          core-size: 10
+          max-size: 50
+          queue-capacity: 500
+# =======================
+# Configuración de MongoDB
+# =======================
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/searching
+  mongodb:
+    connection-timeout: 30000
+    socket-timeout: 60000
+    pool:
+      max-size: 100
+  mvc:
+    throw-exception-if-no-handler-found: true
+    dispatch-options-request: true 
+
+# Configuración de logs (opcional)
+logging:
+  level:
+    org:
+      springframework:
+        kafka: INFO
+        web: INFO
+    com:
+      avoris:
+        prueba:
+         search:
+           api: INFO
+  file:
+    name: logs/application.log
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.0.2 
+
+app:
+  kafka:
+    topic: hotel_availability_searches
